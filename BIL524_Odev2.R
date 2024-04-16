@@ -56,7 +56,10 @@ data_out_edit
 data_out_edit$Ogrenci_Adi <- gsub(" ", "", data_out_edit$Ogrenci_Adi)
 data_out_edit
 
-# Ver artık düzgün görünüyor. Son bir df olarak kaydetme ve grafikle inceleme
+# Veri artık düzgün görünüyor. Son bir df olarak kaydetme ve detaylı inceleme
 sinav_sonuc <- data_out_edit
 plot(sinav_sonuc$Yanlislar)
 hist(sinav_sonuc$Netler)
+korelasyon <- cor(sinav_sonuc$Yanlislar, sinav_sonuc$Netler)
+print(correlation)
+plot(sinav_sonuc$Yanlislar, sinav_sonuc$Netler)
