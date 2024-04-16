@@ -61,5 +61,5 @@ sinav_sonuc <- data_out_edit
 plot(sinav_sonuc$Yanlislar)
 hist(sinav_sonuc$Netler)
 korelasyon <- cor(sinav_sonuc$Yanlislar, sinav_sonuc$Netler)
-print(correlation)
+print(korelasyon)
 plot(sinav_sonuc$Yanlislar, sinav_sonuc$Netler)
