@@ -1,5 +1,5 @@
 # BIL524 Ödev 2
-
+# Görev 1
 # Örnek veri seti oluşturma
 set.seed(123)
 n = 20
@@ -63,3 +63,50 @@ hist(sinav_sonuc$Netler)
 korelasyon <- cor(sinav_sonuc$Yanlislar, sinav_sonuc$Netler)
 print(korelasyon)
 plot(sinav_sonuc$Yanlislar, sinav_sonuc$Netler)
+
+# Görev 2
+#csv import edebilmek için readr paketini aktifleştiriyorum
+install.packages("readr")
+library(readr)
+
+#örnek veri setimi üzerinde çalışmak üzere online kaynaktan import etme
+titanic <- read_csv("https://gist.githubusercontent.com/fyyying/4aa5b471860321d7b47fd881898162b7/raw/6907bb3a38bfbb6fccf3a8b1edfb90e39714d14f/titanic_dataset.csv")
+
+#titanic veri setini inceleme
+head(titanic)
+tail(titanic)
+nrow(titanic)
+ncol(titanic)
+colnames(titanic)
+summary(titanic)
+
+#Örneğin cinsiyet verisinin karakter, survived verisinin numerik cinste olduğu görülüyor. Veri tiplerini düzeltme işlemi
+titanic$Sex = as.factor(titanic$Sex)
+titanic$Survived = as.factor(titanic$Survived)
+titanic$Pclass = as.factor(titanic$Pclass)
+titanic$Embarked = as.factor(titanic$Embarked)
+
+#Belli değişkenlerin hayatta kalma üzerine etkisini ölçmek üzere orjinal veriden yeni bir df oluşturma
+titanic_analiz <- titanic[c('Survived', 'Age', 'Sex', 'Pclass')]
+
+#Çalışma veri setini analiz edelim. NA veriler olduğu görülüyor
+is.na(titanic_analiz)
+sum(is.na(titanic_analiz))
+summary(titanic_analiz)
+
+#NA veriler yaş kolonunda toplanmış. NA verileri analizden çıkartalım
+titanic_analiz_nona <- titanic_analiz[rowSums(is.na(titanic_analiz)) <= 0, ]
+sum(is.na(titanic_analiz_nona))
+
+#ggplot paketini kullanarak seçili değişkenlerin hayatta kalma üzerine etkilerini görsel olarak keşfedelim. Örnek bir çalışma:
+install.packages("ggplot")
+ggplot(titanic_analiz_nona, aes(x = Survived, fill=Pclass)) +
+  geom_bar(position = position_dodge()) +
+  geom_text(stat='count', 
+            aes(label=stat(count)), 
+            position = position_dodge(width=1)) +
+  labs (
+    y = "Yolcu Sayısı",
+    x = "Hayatta Kalma")
+            
+            
